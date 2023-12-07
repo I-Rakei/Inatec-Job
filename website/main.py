@@ -69,5 +69,27 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('home'))
 
+#write the code and moduals to connect to a mysql server databse 
+import mysql.connector
+
+# Establish a connection to the MySQL server
+cnx = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="1234",
+    database="ismael"
+)
+
+# Create a cursor object to interact with the database
+cursor = cnx.cursor()
+
+# Execute SQL queries
+# ...
+# Add your SQL queries here to interact with the database
+
+# Close the cursor and the connection
+cursor.close()
+cnx.close()
+
 if __name__ == '__main__':
     app.run(debug=True)

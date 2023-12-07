@@ -1,0 +1,76 @@
+.user-link{ 
+    text-decoration: none;
+    color: black;
+    background-color: rgb(243, 245, 250);
+    width: 40px; 
+    height: 40px;
+    border-radius: 50%;
+    padding: 8px;
+    border: none;
+    font-size: 18px;
+
+}
+body{ background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.logo{
+  padding-top: 30px;
+    width: 100px;
+}
+
+.user-link:hover{
+    background-color: rgb(190, 225, 239);
+    transition: 0.5s;
+}
+
+.sidebar {
+    position: absolute;
+    height: 100%;
+    width: 0; 
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 60px; 
+    transition: 0.5s; 
+  }
+  
+  .sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  .sidebar a:hover {
+    color: #f1f1f1;
+  }
+  
+  .sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  
+  #main {
+    transition: margin-left .5s; 
+    padding: 15px;
+    margin-right: auto;
+  }
+  
+  .conteudo{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: medium;
+  }
+
+  @media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+  }

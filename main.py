@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -19,8 +19,10 @@ cursor.execute('''
 ''')
 conn.commit()
 conn.close()
-
 @app.route('/')
+def index():
+    return render_template('inicial.html')
+@app.route('/loggedin')
 def home():
     if 'username' in session:
         return 'Hello, ' + session['username']
@@ -61,35 +63,14 @@ def login():
         if user and check_password_hash(user[2], password_candidate):
             session['username'] = username
             return redirect(url_for('home'))
-
+        else:
+            flash('Invalid username or password')
     return render_template('login.html')
 
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect(url_for('home'))
-
-#write the code and moduals to connect to a mysql server databse 
-import mysql.connector
-
-# Establish a connection to the MySQL server
-cnx = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="1234",
-    database="ismael"
-)
-
-# Create a cursor object to interact with the database
-cursor = cnx.cursor()
-
-# Execute SQL queries
-# ...
-# Add your SQL queries here to interact with the database
-
-# Close the cursor and the connection
-cursor.close()
-cnx.close()
 
 if __name__ == '__main__':
     app.run(debug=True)

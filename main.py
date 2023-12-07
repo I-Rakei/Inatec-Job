@@ -25,7 +25,7 @@ def index():
 @app.route('/loggedin')
 def home():
     if 'username' in session:
-        return 'Hello, ' + session['username']
+        return 'Ola, ' + session['username']
     return 'You are not logged in'
 
 @app.route('/register', methods=['GET', 'POST'])

@@ -76,11 +76,17 @@
     </div>
     <div id="mySidebar" class="sidebar bg-dark">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#">Modulos</a>
+        <a href="{{ url_for('cursos') }}">Cursos</a>
         <a href="#">Propinas</a>
         <a href="#">Descicao</a>
         <a href="#">Contacto</a>
     </div>
+    <footer class="bg-dark">
+        <p>Copyright © 2023 - Todos os direitos reservados.</p>
+        <i class="fa-brands fa-facebook b-link"><a href="https://www.facebook.com/"></a></i>
+        <i class="fa-brands fa-whatsapp b-link"><a href= "https://web.whatsapp.com/"></a></i>
+        <i class="fa-solid fa-globe b-link"><a href="https://ismaelrakei.000webhostapp.com/"></i>
+    </footer>
     <script>
         function moveContentToRight() {
             var contentDiv = document.getElementById("contentDiv");

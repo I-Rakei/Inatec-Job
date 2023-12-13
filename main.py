@@ -1,32 +1,43 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-import sqlite3
+from flaskext.mysql import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
+  
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = '1234'
+app.config['MYSQL_DATABASE_DB'] = 'ismael'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_PORT'] = 3306
+app.config['MYSQL_DATABASE_SSL_CIPHER'] = 'TLS_AES_256_GCM_SHA384'
+app.config['MYSQL_DATABASE_AUTH_PLUGIN'] = 'caching_sha2_password'
 
-# Create SQLite database and table
-conn = sqlite3.connect('user_data.db')
-cursor = conn.cursor()
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL,
-        password TEXT NOT NULL,
-        turma TEXT NOT NULL,
-        year INTEGER NOT NULL
-    )
-''')
-conn.commit()
-conn.close()
+mysql = MySQL(app)
+
+# Create MySQL table
+with app.app_context():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(255) NOT NULL,
+            password VARCHAR(255) NOT NULL,
+            turma VARCHAR(255) NOT NULL,
+            year INT NOT NULL
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
 @app.route('/loggedin')
 def home():
-    if 'username' in session:
-        return 'Ola, ' + session['username']
-    return 'You are not logged in'
+    return render_template('user/user.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -36,10 +47,10 @@ def register():
         turma = request.form['turma']
         year = int(request.form['year'])
 
-        # Insert user data into the SQLite database
-        conn = sqlite3.connect('user_data.db')
+        # Insert user data into the MySQL database
+        conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute('INSERT INTO users (username, password, turma, year) VALUES (?, ?, ?, ?)', (username, password, turma, year))
+        cursor.execute('INSERT INTO users (username, password, turma, year) VALUES (%s, %s, %s, %s)', (username, password, turma, year))
         conn.commit()
         conn.close()
 
@@ -53,10 +64,10 @@ def login():
         username = request.form['username']
         password_candidate = request.form['password']
 
-        # Check if the user exists in the SQLite database
-        conn = sqlite3.connect('user_data.db')
+        # Check if the user exists in the MySQL database
+        conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute('SELECT * FROM users WHERE username = ?', (username,))
+        cursor.execute('SELECT * FROM users WHERE username = %s', (username,))
         user = cursor.fetchone()
         conn.close()
 
@@ -65,6 +76,7 @@ def login():
             return redirect(url_for('home'))
         else:
             flash('Invalid username or password')
+
     return render_template('login.html')
 
 @app.route('/logout')
@@ -76,5 +88,33 @@ def logout():
 def cursos():
     return render_template('cursos.html')
 
+@app.route('/user/cursos')
+def cursosUser():
+    return render_template('user/cursos.html')
+
+@app.route('/user/horario', methods=['GET', 'POST'])
+def horario():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM horario_semana')
+    horarios = cursor.fetchall() 
+    conn.close()
+    print(horarios)   
+    return render_template('user/horarios.html', horarios=horarios) 
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+
+def create_horarios():
+    conn = mysql.connect()
+    curosr=conn.cursor()
+    cursor.execute( '''Create table horario_semana (horario_id INT AUTO_INCREMENT PRIMARY KEY,
+                   seg VARCHAR(50)NOT NULL,
+                   ter VARCHAR(50)NOT NULL, 
+                   quar VARCHAR(50)NOT NULL,
+                   quin VARCHAR(50)NOT NULL,
+                   sext VARCHAR(50)NOT NULL,
+                   sab VARCHAR(50)NOT NULL);''')
+    conn.commit()
+    conn.close()

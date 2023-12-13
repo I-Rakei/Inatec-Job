@@ -1,0 +1,34 @@
+{%extends "user/BaseUser.html" %}
+
+{%block title%}
+    Cursos
+{%endblock%}
+
+{%block content%}
+    <div class="content" id="contentDiv">
+        <p>Ola, {{ session['username'] }}</p>
+        <div class="side-side">
+            <div class="wrapper">
+                <p class="text-in">Horarios</p>
+                <button style="padding: 10px 20px; font-size: 16px;" class="btn btn-primary">
+                    <a class="text-light text-decoration-none" href="{{ url_for('horario') }}">Ver Horario</a>
+                </button>
+            </div>
+        </div>
+        <div class="side-side">
+            <div class="wrapper">
+                <p class="text-in">Testes</p>
+            </div>
+        </div>
+        <div class="side-side">
+            <div class="wrapper">
+                <p class="text-in">Info do semestre</p>
+            </div>
+        </div>
+        <div class="side-side">
+            <div class="wrapper">
+                <p class="text-in">Info###</p>
+            </div>
+        </div>
+    </div>
+{%endblock%}

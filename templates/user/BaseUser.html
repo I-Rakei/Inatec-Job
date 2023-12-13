@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina inical</title>
+    <title>{% block title %}Base{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://kit.fontawesome.com/b2eea60edc.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -52,8 +52,7 @@
                 <button class="btn btn-dark openbtn" onclick="openNav()">&#9776; Menu</button>
                 <img src="{{ url_for('static', filename='logo.png') }}" alt="logo" class="logo">
             </div>
-            <a href="{{url_for('index')}}" class="btn btn-dark" role="button">Incial</a>
-            <li><a href="{{ url_for('login') }}" class="btn btn-dark" role="button">Logar</a></li>
+            <a href="{{ url_for('index') }}" class="btn btn-dark" role="button">Incial</a>
             <li>
                 <div class="user">
                     <button class="user-link">
@@ -63,20 +62,12 @@
             </li>
         </ul>
     </nav>
-    <div id="contentDiv" class="content">
-        <p class="conteudo">Bem-vindo ao YU-GI, a sua plataforma digital para desbravar os desafios do mundo acadêmico! Aqui, a jornada do estudante ganha uma nova dimensão, onde o poder de gerenciar o seu plano educacional está nas suas mãos.
-
-            Imagine um ambiente onde a organização e o controle do seu percurso acadêmico são tão descomplicados quanto um duelo de cartas. Com o YU-GI, você é o mestre do seu destino educacional, e cada escolha é uma estratégia cuidadosamente planejada para a vitória.
-            
-            Desenvolvido com a magia da tecnologia, o YU-GI oferece funcionalidades intuitivas e recursos poderosos para maximizar sua experiência estudantil. Acompanhe suas disciplinas como quem gerencia um deck de cartas, alinhando-as para alcançar seus objetivos acadêmicos com precisão milimétrica.
-            
-            Sinta o poder da organização em suas mãos, enquanto o YU-GI simplifica tarefas complexas, como o rastreamento de notas, gerenciamento de prazos e a criação de estratégias de estudo eficazes. Cada funcionalidade foi projetada para liberar o seu potencial acadêmico, transformando o aprendizado em uma jornada épica.
-            
-            Prepare-se para entrar no YU-GI, onde a gestão do seu plano estudantil se torna uma aventura fascinante. Desperte o duelista acadêmico em você e alcance a grandeza educacional com a magia do YU-GI!</p>
+    <div class="container ">
+        {% block content %}{% endblock %}
     </div>
     <div id="mySidebar" class="sidebar bg-dark">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="{{ url_for('cursos') }}">Cursos</a>
+        <a href="{{ url_for('cursosUser') }}">Cursos</a>
         <a href="#">Propinas</a>
         <a href="#">Descicao</a>
         <a href="#">Contacto</a>
